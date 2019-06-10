@@ -6,7 +6,15 @@ import (
 	"time"
 )
 
+var (
+	ClientIp = ""
+)
+
 func getLocalhostIp() (ip net.IP, err error) {
+	if ClientIp != "" {
+		ip = net.ParseIP(ClientIp)
+		return
+	}
 	ip = net.IPv4(127, 0, 0, 1)
 
 	addrs, err := net.InterfaceAddrs()

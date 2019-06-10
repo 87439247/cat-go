@@ -6,10 +6,7 @@ import (
 	"github.com/Meituan-Dianping/cat-go/message"
 )
 
-func NewTransaction(mtype, name string) message.Transactor {
-	if !IsEnabled() {
-		return message.NullTransaction
-	}
+func NewTransaction(mtype, name string) *message.Transaction {
 	return message.NewTransaction(mtype, name, manager.flush)
 }
 
