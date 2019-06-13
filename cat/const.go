@@ -40,12 +40,12 @@ const ( // Declared properties given by the router server.
 )
 
 const (
-	highPriorityQueueSize   = 1000
-	normalPriorityQueueSize = 5000
+	highPriorityQueueSize   = 100000
+	normalPriorityQueueSize = 500000
 
-	transactionAggregatorChannelCapacity = 1000
-	eventAggregatorChannelCapacity       = 1000
-	metricAggregatorChannelCapacity      = 1000
+	transactionAggregatorChannelCapacity = 100000
+	eventAggregatorChannelCapacity       = 100000
+	metricAggregatorChannelCapacity      = 100000
 
 	transactionAggregatorInterval = time.Second * 3
 	eventAggregatorInterval       = time.Second * 3
