@@ -10,6 +10,10 @@ func NewTransaction(mtype, name string) *message.Transaction {
 	return message.NewTransaction(mtype, name, manager.flush)
 }
 
+func NewChildTransaction(mtype, name string) *message.Transaction {
+	return message.NewChildTransaction(mtype, name, manager.flush)
+}
+
 func NewCompletedTransactionWithDuration(mtype, name string, duration time.Duration) {
 	if !IsEnabled() {
 		return

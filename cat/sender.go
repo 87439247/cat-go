@@ -97,6 +97,10 @@ func (s *catMessageSender) send(m message.Messager) {
 }
 
 func (s *catMessageSender) handleTransaction(trans *message.Transaction) {
+	if !trans.GetTopTrans() {
+		return
+	}
+
 	if trans.GetStatus() != SUCCESS {
 		select {
 		case s.high <- trans:
@@ -176,13 +180,13 @@ func (s *catMessageSender) process() {
 }
 
 var sender = catMessageSender{
-	scheduleMixin:   makeScheduleMixedIn(signalSenderExit),
-	normal:          make(chan message.Messager, normalPriorityQueueSize),
-	high:            make(chan message.Messager, highPriorityQueueSize),
-	chConn:          make(chan net.Conn),
-	encoder:         message.NewBinaryEncoder(),
-	buf:             bytes.NewBuffer([]byte{}),
-	conn:            nil,
+	scheduleMixin: makeScheduleMixedIn(signalSenderExit),
+	normal:        make(chan message.Messager, normalPriorityQueueSize),
+	high:          make(chan message.Messager, highPriorityQueueSize),
+	chConn:        make(chan net.Conn),
+	encoder:       message.NewBinaryEncoder(),
+	buf:           bytes.NewBuffer([]byte{}),
+	conn:          nil,
 	messageDiscardHook: func(messager message.Messager) {
 		logger.Warning("Message has been discarded due to no active connection")
 	},
