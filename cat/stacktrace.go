@@ -37,7 +37,7 @@ func functionName(pc uintptr) string {
 	return fn.Name()
 }
 
-func newStacktrace(skip int, err error) (buf *bytes.Buffer) {
+func NewStacktrace(skip int, err error) (buf *bytes.Buffer) {
 	buf = bytes.NewBuffer([]byte{})
 	buf.WriteString(err.Error())
 	buf.WriteRune('\n')

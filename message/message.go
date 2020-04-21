@@ -19,6 +19,8 @@ type MessageGetter interface {
 	GetStatus() string
 	GetData() *bytes.Buffer
 	GetTime() time.Time
+	GetMessageId() string
+	SetMessageId(id string)
 }
 
 type Messager interface {
@@ -31,9 +33,10 @@ type Messager interface {
 }
 
 type Message struct {
-	Type   string
-	Name   string
-	Status string
+	Type      string
+	Name      string
+	Status    string
+	MessageId string
 
 	timestamp time.Time
 
@@ -107,4 +110,12 @@ func (m *Message) SetStatus(status string) {
 
 func (m *Message) SetSuccessStatus() {
 	m.Status = CatSuccess
+}
+
+func (m *Message) SetMessageId(id string) {
+	m.MessageId = id
+}
+
+func (m *Message) GetMessageId() string {
+	return m.MessageId
 }

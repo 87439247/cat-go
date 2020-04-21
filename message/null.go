@@ -14,6 +14,8 @@ type NullTransaction struct {
 
 var nullMessage = &NullMessage{}
 
+var nullTransaction = &NullTransaction{}
+
 func (m *NullMessage) Complete() {
 }
 
@@ -50,6 +52,13 @@ func (m *NullMessage) SetData(v string) {
 }
 
 func (m *NullMessage) SetStatus(status string) {
+}
+
+func (m *NullMessage) SetMessageId(id string) {
+}
+
+func (m *NullMessage) GetMessageId() string {
+	return ""
 }
 
 func (t *NullTransaction) GetChildren() []Messager {

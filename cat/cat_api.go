@@ -6,11 +6,12 @@ import (
 	"github.com/Meituan-Dianping/cat-go/message"
 )
 
-func NewTransaction(mtype, name string) message.Transactor {
-	if !IsEnabled() {
-		return &message.NullTransaction{}
-	}
-	return message.NewTransaction(mtype, name, manager.flush)
+func NewTransaction(mtype, name string) *message.Transaction {
+	return message.NewTransaction(mtype, name, Manager.flush)
+}
+
+func NewChildTransaction(mtype, name string) *message.Transaction {
+	return message.NewChildTransaction(mtype, name, Manager.flush)
 }
 
 func NewCompletedTransactionWithDuration(mtype, name string, duration time.Duration) {
@@ -31,7 +32,7 @@ func NewEvent(mtype, name string) message.Messager {
 	if !IsEnabled() {
 		return &message.NullMessage{}
 	}
-	return message.NewEvent(mtype, name, manager.flush)
+	return message.NewEvent(mtype, name, Manager.flush)
 }
 
 func LogEvent(mtype, name string, args ...string) {
@@ -69,7 +70,7 @@ func LogErrorWithCategory(err error, category string) {
 	}
 
 	var event = NewEvent("Error", category)
-	var buf = newStacktrace(2, err)
+	var buf = NewStacktrace(2, err)
 	event.SetStatus(message.CatError)
 	event.SetData(buf.String())
 	event.Complete()

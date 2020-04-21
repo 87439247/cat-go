@@ -21,14 +21,22 @@ type Transactor interface {
 type Transaction struct {
 	Message
 
-	children []Messager
-
+	children    []Messager
+	isTop       bool
 	isCompleted bool
 
 	mu sync.Mutex
 
 	duration      time.Duration
 	durationStart time.Time
+}
+
+func (t *Transaction) GetTopTrans() bool {
+	return t.isTop
+}
+
+func (t *Transaction) SetTopTrans(isTopTrans bool) {
+	t.isTop = isTopTrans
 }
 
 func (t *Transaction) Complete() {
@@ -88,6 +96,19 @@ func NewTransaction(mtype, name string, flush Flush) *Transaction {
 	return &Transaction{
 		Message:       NewMessage(mtype, name, flush),
 		children:      make([]Messager, 0),
+		isTop:         true,
+		isCompleted:   false,
+		mu:            sync.Mutex{},
+		duration:      0,
+		durationStart: time.Time{},
+	}
+}
+
+func NewChildTransaction(mtype, name string, flush Flush) *Transaction {
+	return &Transaction{
+		Message:       NewMessage(mtype, name, flush),
+		children:      make([]Messager, 0),
+		isTop:         false,
 		isCompleted:   false,
 		mu:            sync.Mutex{},
 		duration:      0,
