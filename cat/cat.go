@@ -7,8 +7,8 @@ import (
 
 var isEnabled uint32 = 0
 
-func Init(domain string) {
-	if err := config.Init(domain); err != nil {
+func Init(domain string, ip string) {
+	if err := config.Init(domain, ip); err != nil {
 		logger.Warning("Cat initialize failed.")
 		return
 	}

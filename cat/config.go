@@ -92,7 +92,7 @@ func parseXMLConfig(data []byte) (err error) {
 	return
 }
 
-func (config *Config) Init(domain string) (err error) {
+func (config *Config) Init(domain string, ipStr string) (err error) {
 	config.domain = domain
 
 	defer func() {
@@ -104,12 +104,16 @@ func (config *Config) Init(domain string) (err error) {
 	}()
 
 	// TODO load env.
-
 	var ip net.IP
-	if ip, err = getLocalhostIp(); err != nil {
-		config.ip = defaultIp
-		config.ipHex = defaultIpHex
-		logger.Warning("Error while getting local ip, using default ip: %s", defaultIp)
+	if ipStr != "" {
+		ip = net.ParseIP(ipStr)
+	}
+	if ip == nil {
+		if ip, err = getLocalhostIp(); err != nil {
+			config.ip = defaultIp
+			config.ipHex = defaultIpHex
+			logger.Warning("Error while getting local ip, using default ip: %s", defaultIp)
+		}
 	} else {
 		config.ip = ip2String(ip)
 		config.ipHex = ip2HexString(ip)
