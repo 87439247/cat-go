@@ -29,14 +29,14 @@ type catRouterConfig struct {
 	sample  float64
 	routers []serverAddress
 	current *serverAddress
-	ticker *time.Ticker
+	ticker  *time.Ticker
 }
 
 var router = catRouterConfig{
 	scheduleMixin: makeScheduleMixedIn(signalRouterExit),
 	sample:        1.0,
 	routers:       make([]serverAddress, 0),
-	ticker: nil,
+	ticker:        nil,
 }
 
 func (c *catRouterConfig) GetName() string {
@@ -112,18 +112,18 @@ func (c *catRouterConfig) updateSample(v string) {
 	sample, err := strconv.ParseFloat(v, 32)
 	if err != nil {
 		logger.Warning("Sample should be a valid float, %s given", v)
-	} else if math.Abs(sample - c.sample) > 1e-9 {
+	} else if math.Abs(sample-c.sample) > 1e-9 {
 		c.sample = sample
 		logger.Info("Sample rate has been set to %f%%", c.sample*100)
 	}
 }
 
 func (c *catRouterConfig) updateBlock(v string) {
-	if v == "false" {
-		enable()
-	} else  {
-		disable()
-	}
+	//if v == "false" {
+	//	enable()
+	//} else  {
+	//	disable()
+	//}
 }
 
 func (c *catRouterConfig) parse(reader io.ReadCloser) {
