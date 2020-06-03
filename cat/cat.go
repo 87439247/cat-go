@@ -43,3 +43,15 @@ func Shutdown() {
 func DebugOn() {
 	logger.logger.SetOutput(os.Stdout)
 }
+
+func Pause() {
+	if atomic.SwapUint32(&isEnabled, 1) == 0 {
+		logger.Info("Cat has been enabled.")
+	}
+}
+
+func Resume() {
+	if atomic.SwapUint32(&isEnabled, 0) == 1 {
+		logger.Info("Cat has been disabled.")
+	}
+}
