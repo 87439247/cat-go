@@ -16,6 +16,7 @@ type Flush func(m Messager)
 type MessageGetter interface {
 	GetType() string
 	GetName() string
+	SetName(name string)
 	GetStatus() string
 	GetData() *bytes.Buffer
 	GetTime() time.Time
@@ -68,6 +69,10 @@ func (m *Message) GetType() string {
 
 func (m *Message) GetName() string {
 	return m.Name
+}
+
+func (m *Message) SetName(name string) {
+	m.Name = name
 }
 
 func (m *Message) GetStatus() string {

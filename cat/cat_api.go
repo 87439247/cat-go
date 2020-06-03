@@ -6,11 +6,17 @@ import (
 	"github.com/Meituan-Dianping/cat-go/message"
 )
 
-func NewTransaction(mtype, name string) *message.Transaction {
+func NewTransaction(mtype, name string) message.Transactor {
+	if !IsEnabled() {
+		return &message.NullTransaction{}
+	}
 	return message.NewTransaction(mtype, name, Manager.flush)
 }
 
-func NewChildTransaction(mtype, name string) *message.Transaction {
+func NewChildTransaction(mtype, name string) message.Transactor {
+	if !IsEnabled() {
+		return &message.NullTransaction{}
+	}
 	return message.NewChildTransaction(mtype, name, Manager.flush)
 }
 

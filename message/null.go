@@ -27,6 +27,9 @@ func (m *NullMessage) GetName() string {
 	return ""
 }
 
+func (m *NullMessage) SetName(name string) {
+}
+
 func (m *NullMessage) GetStatus() string {
 	return ""
 }
@@ -61,6 +64,13 @@ func (m *NullMessage) GetMessageId() string {
 	return ""
 }
 
+func (t *NullTransaction) GetTopTrans() bool {
+	return true
+}
+
+func (t *NullTransaction) SetTopTrans(isTopTrans bool) {
+}
+
 func (t *NullTransaction) GetChildren() []Messager {
 	return []Messager{}
 }
@@ -80,5 +90,7 @@ func (t *NullTransaction) NewEvent(mtype, name string) Messager {
 }
 
 func (t *NullTransaction) LogEvent(mtype, name string, args ...string) {
-	return
+}
+
+func (t *NullTransaction) AddChild(m Messager) {
 }
