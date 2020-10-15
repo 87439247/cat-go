@@ -43,6 +43,9 @@ func (s *catMessageSender) send(m message.Messager) {
 	buf.Reset()
 
 	var header = createHeader()
+	if m.GetMessageId() != "" {
+		header.MessageId = m.GetMessageId()
+	}
 	if err := s.encoder.EncodeHeader(buf, header); err != nil {
 		return
 	}
